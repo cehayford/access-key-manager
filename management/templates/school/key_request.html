@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% comment %} {% for school in id%} {% endcomment %}
+    <h1>Request for Access Key</h1>
+    <p>School: {{ school.name }}</p>
+    <p>School ID: {{ school.id }}</p>
+    <a href="{% url 'management:school_key_view' school.id %}"> Back To Access Key Page</a>
+{% comment %} {% endfor %} {% endcomment %}
+{% endblock %}

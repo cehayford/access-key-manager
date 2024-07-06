@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if access_key %}
+<p>New access key generated: {{ access_key.key }}</p>
+{% endif %}
+{% comment %} <span><a href="{% url 'management:school_key_view' schools.pk %}">Previous Page</a></span> {% endcomment %}
+<form method="post">
+    {% csrf_token %}
+    <div>
+        <label for="school">School:</label>
+        <select id="school">
+            <option value="{{ schools.pk }}">{{ schools.name }}</option>
+        </select>
+    </div>
+    <div>
+        <label for="expiry_date">Expiry Date:</label>
+        <input type="datetime-local" name="expiry_date" id="expiry_date" required/>
+    </div>
+    <input type="submit" value="Generate Access Key">
+</form>
+{% endblock %}

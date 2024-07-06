@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% comment %} {% load static %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static '/filesystem/index.css' %}">
+{% endblock %} {% endcomment %}
+
+{% block content %}
+    <div class="heading">
+        {% comment %} <p class="custom-button"><a href="{% url 'filesystem:search' %}">Previous Page</a></p> {% endcomment %}
+    </div>
+    <div class="main">
+        <h1>Email verification</h1>
+        <p>A verification email has been sent to your email address. Please follow the link in the email to activate your account.</p>
+    </div>
+{% endblock %}
