@@ -1,0 +1,57 @@
+
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <span><a href="{% url 'account:logout' %}">Logout</a></span>
+    <h1>Dashboard</h1>
+    <span><a href="{% url 'management:key_request' school.pk %}">Request for Acess key</a></span>
+        <table>
+        <tr>
+            <th>User</th>
+            <th>School</th>
+            <th>Key</th>
+            <th>Account Status</th>
+            <th>Procurement Date</th>
+            <th>Expiry Date</th>
+            {% if user.is_superuser %}
+              <th>Actions</th>
+            {% endif %}
+        </tr>
+    {% for access_key in page_obj %}
+        <tr>
+            <td>{{user}}</td>
+            <td>{{ access_key.school }}</td>
+            <td>{{ access_key.key }}</td>
+            <td>
+                {% if access_key.expiry_date < time %}
+                    Expired
+                {% else %}
+                    {{ access_key.status }}
+                {% endif %}
+            </td>
+            <td>{{ access_key.date_of_procurement }}</td>
+            <td>{{ access_key.expiry_date }}</td>
+        </tr>
+    {% endfor %}
+</table>
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+  
+</body>
+</html>

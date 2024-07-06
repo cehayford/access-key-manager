@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% comment %} {% load static %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static '/filesystem/style.css' %}">
+{% endblock %} {% endcomment %}
+
+{% block content %}
+    <div>
+        <h2>Login</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button>Log In</button>
+            <p><a href="{% url 'account:reset_page' %}">Forget Password</a></p>
+            {% if next %}
+                <input type="hidden" name="next" value="{{ next }}"/>
+            {% endif %}
+            <p>Don't have an account? <a href="{% url 'account:signup' %}">Sign Up</a></p>
+        </form>
+    </div>
+{% endblock %}

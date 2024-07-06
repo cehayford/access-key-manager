@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% comment %} <html>
+<head>
+    <title>Key Detail</title>
+</head>
+<body>
+    <h1>Key Detail</h1>
+    <p>User: {{ user }}</p>
+    <p>Key: {{ key }}</p>
+    <p>Account Status: {{ key.status }}</p>
+    <p>Procurement Date: {{ key.date_of_procurement }}</p>
+    <p>Expiration Date: {{ key.expiry_date }}</p>
+    {% if request.user.is_superuser %}
+        <p><a href="/{{ key.id }}/revoke">Revoke Key</a></p>
+    {% endif %}
+</body>
+</html> {% endcomment %}
+
+
+
+    <title>Key Detail</title>
+
+{% block content %}
+      <span><a href="{% url 'management:access_key_view_api' %}">Get access key api</a></span>
+      | <span><a href="{% url 'account:logout' %}">Logout</a></span>
+  <h2>Access Keys</h2>
+  <table>
+        <tr>
+            <th>Key</th>
+            <th>School</th>
+            <th>Status</th>
+            <th>Date of Procurement</th>
+            <th>Expiry Date</th>
+            {% if user.is_superuser %}
+              <th>Actions</th>
+            {% endif %}
+        </tr>
+    {% for access_key in list %}
+        <tr>
+            <td>{{ access_key.key }}</td>
+            <td>{{ access_key.school }}</td>
+            <td>
+                {% if access_key.expiry_date < time %}
+                    Expired
+                {% else %}
+                    {{ access_key.status }}
+                {% endif %}
+            </td>
+            <td>{{ access_key.date_of_procurement }}</td>
+            <td>{{ access_key.expiry_date }}</td>
+            {% if user.is_superuser %}
+                <td>
+                    <a href="{% url 'management:update_key' access_key.pk %}">Update</a> |
+                    <a href="{% url 'management:revoke_key' access_key.pk %}">Revoke</a>
+              </td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+</table>
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+  
+{% endblock %}
